@@ -1,10 +1,18 @@
 import numpy as np
 
-class Norma:
+class Vetor:
     
     def __init__(self, X):
         self.__X = X
+        
+    @property
+    def vetor(self):
+        return self.__X
     
+    @property
+    def dim(self):
+        return np.shape(self.__X)[0]
+        
     #Norma 1 de vetor.
     def norma1(self):
         n = 0 
