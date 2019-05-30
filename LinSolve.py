@@ -11,13 +11,13 @@ class LinSolve:
         
         if self.__A[1,0] == 0 and self.__A[0,1] != 0:
             x1 = self.trisup()
-            if (np.dot(self.__A, x1) - self.__b == np.zeros(np.shape(self.__b))).all():
+            if (np.dot(self.__A, x1) - self.__b <= np.full(np.shape(self.__b),10**(-10))).all():
                 return x1
             else:
                 return "A matriz não é triangular."
         elif self.__A[0,1] == 0 and self.__A[1,0] != 0:
             x2 = self.triinf()
-            if (np.dot(self.__A, x2) - self.__b == np.zeros(np.shape(self.__b))).all():
+            if (np.dot(self.__A, x2) - self.__b <= np.full(np.shape(self.__b),10**(-10))).all():
                 return x2
             else: 
                 return "A matriz não é triangular."
@@ -31,9 +31,9 @@ class LinSolve:
         for j in range(np.shape(self.__A)[0]):
             x[np.shape(self.__A)[0]-(j+1), 0] = (self.__b[np.shape(self.__A)[0]-(j+1),0] - s)/ self.__A[np.shape(self.__A)[0]-(j+1),np.shape(self.__A)[0]-(j+1)]
             s = 0
-            if j < np.shape(self.__A)[0]-1 :
+            if j < np.shape(self.__A)[0]-1:
                 for i in range(j+1):
-                    s = s + x[np.shape(self.__A)[0]-(i+1), 0]*self.__A[np.shape(self.__A)[0]-(i+2), np.shape(self.__A)[0]-(i+1)]
+                    s = s + x[np.shape(self.__A)[0]-(i+1), 0]*self.__A[np.shape(self.__A)[0]-(j+2), np.shape(self.__A)[0]-(i+1)]
         return x
 
     #Solução direta do sistem linear com matriz A triangular inferior
