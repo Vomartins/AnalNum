@@ -13,6 +13,10 @@ class Matriz:
     def dim(self):
         return np.shape(self.__X)
     
+    @property
+    def transpose(self):
+        return self.__X.transpose()
+    
     #Norma 1 de matriz.
     def norma1(self):
         N = np.zeros((np.shape(self.__X)[0], 1))
