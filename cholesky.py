@@ -1,48 +1,34 @@
 import numpy as np
 import sys
 
-def Cholesky(A):
-    #Checa se a matriz é quadrada.
-    if(np.shape(A)[0] != np.shape(A)[1]):
-        sys.stderr.write("ERRO: a matriz não é quadrada.")
-        input()
-        sys.exit()
-
-    R = np.zeros((np.shape(A)[0], np.shape(A)[1])) #Fator de Cholesky
+class Cholesky:
+    
+    def __init__(self, A):
+        self.__A = A
         
-    for i in range(np.shape(A)[0]):
-        a = A[i,i]
-        if(i>0):
-            a = a - np.dot(R[0:i,i], R[0:i,i])
-        if(a<=0): #Verifica se é positiva definida.
-            sys.stderr.write("ERRO: a matriz não é positiva definida.")
+    def cholesky(self):
+        #Checa se a matriz é quadrada.
+        if(np.shape(self.__A)[0] != np.shape(self.__A)[1]):
+            sys.stderr.write("ERRO: a matriz não é quadrada.")
             input()
             sys.exit()
-        else:
-            R[i,i] = a**0.5
 
-        if(i < np.shape(A)[0]-1):
-            for j in range(i+1, np.shape(A)[1]):
-                R[i,j] = (A[i,j] - np.dot(R[0:i,i],R[0:i,j]))/R[i,i]
+        R = np.zeros((np.shape(self.__A)[0], np.shape(self.__A)[1])) #Fator de Cholesky
 
-    return R
-     
+        for i in range(np.shape(self.__A)[0]):
+            a = self.__A[i,i]
+            if(i>0):
+                a = a - np.dot(R[0:i,i], R[0:i,i])
+            if(a<=0): #Verifica se é positiva definida.
+                sys.stderr.write("ERRO: a matriz não é positiva definida.")
+                input()
+                sys.exit()
+            else:
+                R[i,i] = a**0.5
 
-def HilbertMatrix(n):
-    A = np.zeros((n,n))
-    for i in range(n):
-        for j in range(n):
-            A[i,j] = 1/(i+j+1)
-    return A
+            if(i < np.shape(self.__A)[0]-1):
+                for j in range(i+1, np.shape(self.__A)[1]):
+                    R[i,j] = (self.__A[i,j] - np.dot(R[0:i,i],R[0:i,j]))/R[i,i]
 
-def main():
-    A = HilbertMatrix(3)
-    R = Cholesky(A)
-
-    print('\nA =\n', A)
-    print('\nR = \n', R)
-    print('\nR^t.R = \n', np.dot(R.transpose(),R))
-   
-    input()
-
-main()
+        return R
+    
