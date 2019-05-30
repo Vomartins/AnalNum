@@ -24,7 +24,12 @@ class Vetor:
     #Norma 2 de vetor.
     def norma2(self):
         n = 0 
-        for i in range(np.shape(self.__X)[0]):
-            n = n + self.__X[i]**2
-        n = n**(1/2)
+        b = self.__X.max()
+        if b == 0:
+            n = 0
+        else:
+            x = (1/b)*self.__X
+            for i in range(np.shape(self.__X)[0]):
+                n = n + x[i]**2
+            n = b*n**(1/2)
         return n
