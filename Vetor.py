@@ -1,5 +1,18 @@
 import numpy as np
 
+class Dot:
+    
+    def __init__(self, x, y):
+        self.__x = Vetor(x)
+        self.__y = Vetor(y)
+    
+    def dot(self):
+        n = np.size(self.__x.vetor)
+        soma = 0
+        for i in range(n):
+            soma = soma + self.__x.vetor[i]*self.__y.vetor[i]
+        return soma
+
 class Vetor:
     
     def __init__(self, X):
