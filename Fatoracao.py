@@ -7,7 +7,7 @@ class Fat:
     def __init__(self,A):
         self.__A = A
         
-        
+    #Fatoração de Cholesky.   
     def cholesky(self):
         #Checa se a matriz é quadrada.
         if(np.shape(self.__A)[0] != np.shape(self.__A)[1]):
@@ -33,7 +33,8 @@ class Fat:
                     R[i,j] = (self.__A[i,j] - np.dot(R[0:i,i],R[0:i,j]))/R[i,i]
 
         return R
-        
+    
+    #Fatoração QR com Gram-Schmidt.
     def GS(self):
         m, n = self.__A.shape
         Q = np.zeros((m, n))
@@ -50,9 +51,10 @@ class Fat:
             norma = Vetor(v).norma2()
             Q[:, k] = v / norma
             R[k, k] = norma
+            
         return Q, R
 
-
+    #Fatoração QR com rotação.
     def rot(self):
         m = np.shape(self.__A)[0] #Número de linhas de A
         n = np.shape(self.__A)[1] #Número de colunas de A

@@ -29,7 +29,7 @@ class LinSolve:
         x = np.zeros((np.shape(self.__A)[0],1))
         s = 0
         for j in range(np.shape(self.__A)[0]):
-            x[np.shape(self.__A)[0]-(j+1), 0] = (self.__b[np.shape(self.__A)[0]-(j+1),0] - s)/ self.__A[np.shape(self.__A)[0]-(j+1),np.shape(self.__A)[0]-(j+1)]
+            x[np.shape(self.__A)[0]-(j+1), 0] = (self.__b[np.shape(self.__A)[0]-(j+1)] - s)/ self.__A[np.shape(self.__A)[0]-(j+1),np.shape(self.__A)[0]-(j+1)]
             s = 0
             if j < np.shape(self.__A)[0]-1:
                 for i in range(j+1):
@@ -41,7 +41,7 @@ class LinSolve:
         x = np.zeros((np.shape(self.__A)[0],1))
         s = 0
         for j in range(np.shape(self.__A)[0]):
-            x[j, 0] = (self.__b[j,0] - s)/ self.__A[j,j]
+            x[j, 0] = (self.__b[j] - s)/ self.__A[j,j]
             s = 0
             if j < np.shape(self.__A)[0]-1:
                 for i in range(j+1):
