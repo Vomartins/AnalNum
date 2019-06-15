@@ -1,14 +1,13 @@
-from cholesky import Cholesky
 import numpy as np
+from LinSolve import LinSolve
+from Vetor import Vetor, Dot
+from Matriz import Matriz
+from cholesky import Cholesky
+from QR import QR
 
-def HilbertMatrix(n):
-    A = np.zeros((n,n))
-    for i in range(n):
-        for j in range(n):
-            A[i,j] = 1/(i+j+1)
-    return A
+n = 3
 
-A = HilbertMatrix(3)
+A = np.fromfunction(lambda i, j: 1/(i+j+1), (n,n), dtype=int)
 R = Cholesky(A)
 
 print('\nA =\n', A)
