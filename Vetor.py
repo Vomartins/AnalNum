@@ -37,7 +37,7 @@ class Vetor:
     #Norma 2 de vetor.
     def norma2(self):
         n = 0 
-        b = abs(self.__X).max()
+        b = self.__X.max()
         if b == 0:
             n = 0
         else:
