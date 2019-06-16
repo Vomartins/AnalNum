@@ -11,7 +11,7 @@ n = int(input('Qual a dimensão da matriz de Hilbert desejada? '))
 print('Códigos dos Algortimos:')
 print('    (1) Cholesky \n    (2) QR com Gram-Schmidt \n    (3) QR com rotação')
 alg = int(input('Qual o algoritmo desejado? '))
-
+print('\n')
 #Cálculo do número de condicionamento analítico pela norma2(k2)
 def cond(A, invA):
     return Matriz(A).norma2()*Matriz(invA).norma2()
@@ -65,14 +65,12 @@ if alg == 1:
         print(R.matriz)
         print('Matriz Rt:')
         print(R.transpose)
-
-      
-    print('Com a fatoração de Cholesky, a inversa da matriz de Hibert de ordem {} é:'.format(n))
-    print(X)
-    print('H*X:')
-    print(In.matriz)
-    print('r = {}'.format(r))
-    print('\n')
+    if n<= 6:
+        print('Com a fatoração de Cholesky, a inversa da matriz de Hibert de ordem {} é:'.format(n))
+        print(X)
+        print('H*X:')
+        print(In.matriz)
+    print('Raio da inversa: r = {}'.format(r))
     print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
     print('Tambem temos a estimativa da constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, b))
     
@@ -98,13 +96,12 @@ elif alg == 2:
         print(Q1.matriz)
         print('Matriz R:')
         print(R1.matriz)
-      
-    print('Com a fatoração de QR com Gram-Schmidt, a inversa da matriz de Hibert de ordem {} é:'.format(n))
-    print(X)
-    print('H*X:')
-    print(In.matriz)
-    print('r = {}'.format(r))
-    print('\n')
+    if n<= 6:  
+        print('Com a fatoração de QR com Gram-Schmidt, a inversa da matriz de Hibert de ordem {} é:'.format(n))
+        print(X)
+        print('H*X:')
+        print(In.matriz)
+    print('Raio da inversa: r = {}'.format(r))
     print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
     print('Tambem temos a estimativa da constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, b))
     
@@ -130,13 +127,12 @@ elif alg == 3:
         print(Q2.matriz)
         print('Matriz R:')
         print(R2.matriz)
-
-    print('Com a fatoração de QR com rotações, a inversa da matriz de Hibert de ordem {} é: '.format(n))
-    print(X)
-    print('H*X:')
-    print(In.matriz)
-    print('r = {}'.format(r))
-    print('\n')
+    if n<= 6:
+        print('Com a fatoração de QR com rotações, a inversa da matriz de Hibert de ordem {} é: '.format(n))
+        print(X)
+        print('H*X:')
+        print(In.matriz)
+    print('Raio da inversa: r = {}'.format(r))
     print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
     print('Tambem temos a estimativa da constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, b))
     
