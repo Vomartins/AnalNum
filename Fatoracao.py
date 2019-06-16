@@ -42,17 +42,22 @@ class Fat:
 
         for k in range(n):
             v = self.__A[:, k]
+            
+            v_aux = np.zeros(m) #Soma das projeções de v sobre os k-1 vetores ortonormais
 
-            for i in range(k - 1):
+            for i in range(k):
                 q = Q[:, i]
                 R[i, k] = Dot(q, v).dot()
-                v = v - R[i, k] * q
+                v_aux = v_aux + R[i, k] * q
+        
+            v = v - v_aux
 
             norma = Vetor(v).norma2()
-            Q[:, k] = v / norma
+           
+            Q[:, k] = v/norma
             R[k, k] = norma
-            
         return Q, R
+
 
     #Fatoração QR com rotação.
     def rot(self):
