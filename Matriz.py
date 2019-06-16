@@ -30,4 +30,4 @@ class Matriz:
     #Norma 2 de matriz.
     def norma2(self):
         return (np.linalg.eigvals(self.__X.transpose()*self.__X).max())**(1/2)
-        
+    
