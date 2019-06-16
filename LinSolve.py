@@ -17,22 +17,7 @@ class LinSolve:
             return self.triinf()
         else:
             return self.trisup()
-        '''
-        if self.__A[1,0] == 0 and self.__A[0,1] != 0:
-            x1 = self.trisup()
-            if (np.dot(self.__A, x1) - self.__b <= np.full(np.shape(self.__b),10**(-10))).all():
-                return x1
-            else:
-                return "A matriz não é triangular."
-        elif self.__A[0,1] == 0 and self.__A[1,0] != 0:
-            x2 = self.triinf()
-            if (np.dot(self.__A, x2) - self.__b <= np.full(np.shape(self.__b),10**(-10))).all():
-                return x2
-            else: 
-                return "A matriz não é triangular."
-        else:
-            return "A matriz não é triangular."
-        '''
+ 
     #Solução direta do sistem linear com matriz A triangular superior
     def trisup(self):
         x = np.zeros((1,np.shape(self.__A)[0]))
