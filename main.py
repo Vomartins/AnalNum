@@ -68,7 +68,7 @@ if alg == 1:
     if n<= 6:
         print('Com a fatoração de Cholesky, a inversa da matriz de Hibert de ordem {} é:'.format(n))
         print(X)
-        print('H*X:')
+        print('H*X - I:')
         print(In.matriz)
     print('Raio da inversa: r = {}'.format(r))
     print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
@@ -99,7 +99,7 @@ elif alg == 2:
     if n<= 6:  
         print('Com a fatoração de QR com Gram-Schmidt, a inversa da matriz de Hibert de ordem {} é:'.format(n))
         print(X)
-        print('H*X:')
+        print('H*X - I:')
         print(In.matriz)
     print('Raio da inversa: r = {}'.format(r))
     print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
@@ -130,7 +130,7 @@ elif alg == 3:
     if n<= 6:
         print('Com a fatoração de QR com rotações, a inversa da matriz de Hibert de ordem {} é: '.format(n))
         print(X)
-        print('H*X:')
+        print('H*X - I:')
         print(In.matriz)
     print('Raio da inversa: r = {}'.format(r))
     print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
