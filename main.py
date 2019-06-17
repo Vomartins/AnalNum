@@ -65,7 +65,7 @@ if alg == 1:
         print(R.matriz)
         print('Matriz Rt:')
         print(R.transpose)
-    if n<= 6:
+    if n < 6:
         print('Com a fatoração de Cholesky, a inversa da matriz de Hibert de ordem {} é:'.format(n))
         print(X)
         print('H*X - I:')
@@ -96,7 +96,7 @@ elif alg == 2:
         print(Q1.matriz)
         print('Matriz R:')
         print(R1.matriz)
-    if n<= 6:  
+    if n < 6:  
         print('Com a fatoração de QR com Gram-Schmidt, a inversa da matriz de Hibert de ordem {} é:'.format(n))
         print(X)
         print('H*X - I:')
@@ -127,7 +127,7 @@ elif alg == 3:
         print(Q2.matriz)
         print('Matriz R:')
         print(R2.matriz)
-    if n<= 6:
+    if n < 6:
         print('Com a fatoração de QR com rotações, a inversa da matriz de Hibert de ordem {} é: '.format(n))
         print(X)
         print('H*X - I:')
