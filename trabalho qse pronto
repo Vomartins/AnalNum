@@ -1,0 +1,284 @@
+---
+title: 
+author: 
+date:
+header-includes:
+   - \usepackage[brazil, english, portuguese]{babel}
+   - \usepackage[utf8]{inputenc}
+   - \usepackage[T1]{fontenc}
+ 
+   - \usepackage{amsfonts}
+   - \usepackage{amsmath}
+   - \usepackage{amssymb}
+output: 
+  pdf_document:
+    number_sections: false
+    fig_caption: true
+fontsize: 12pt
+documentclass: article
+---
+
+\begin{titlepage} 
+\begin{center} 
+
+{\bf \huge Trabalho de Análise Numérica}\\[4cm]
+\end{center}
+
+\begin{center}
+{\large Gabriel Passos 172351}\\[0.2cm]
+{\large Giovana Marques 197908}\\[0.2cm]
+{\large João Luiz 199657}\\[0.2cm]
+{\large Vinícius Martins 206853}\\[14.5cm]
+\end{center}
+
+\begin{center}
+{\large Campinas}\\[0.2cm]
+{\large 2019}
+\end{center}
+\end{titlepage}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  message = FALSE,
+  warning = FALSE,
+  tidy.opts = list(width.cutoff = 60),
+  tidy = TRUE
+  )
+options(OutDec = ",", 
+  digits = 3, 
+  xtable.comment = FALSE
+  )
+```
+
+
+\newpage
+
+# Introdução
+
+Neste trabalho implementamos os algoritmos de Cholesky, Gram-Shmidt e QR por Rotações de Givens, vistos em aula, os quais são utilizados para resolver sistemas lineares através da manipulação de matrizes. Obtemos as inversas das Matrizes de Hilbert de ordens 3, 6 e 13, as quais são dadas pela fórmula
+
+$$\displaystyle h_{ij}={\frac {1}{i+j-1}}$$ 
+Por exemplo:
+\begingroup
+\setlength\arraycolsep{2pt}
+$$
+H_3 =
+\begin{bmatrix}
+1 & \frac{1}{2} & \frac{1}{3}\\
+\frac{1}{2} & \frac{1}{3} & \frac{1}{4}\\
+\frac{1}{3} & \frac{1}{4} & \frac{1}{5}
+\end{bmatrix}
+$$
+Também calculamos o resíduo gerado na inversão das matrizes pra cada algorítmo e o número de condicionamento de cada matriz, que é uma propriedade que quantifica a sua estabilidade quanto à propagação de erros na resolução de sistemas lineares. Dessa maneira, é esperado que a Matriz de Hilbert torne-se cada vez mais mal condicionada a medida que aumentamos a sua ordem. 
+
+# Algoritmos
+
+* **Cholesky**
+A Decomposição de Cholesky fatora uma matriz positiva-definida e simétrica em uma matriz triangular inferior e uma triangular superior da forma $A=R^TR$, onde $R$ possui elementos na diagonal todos positivos, o que torna a decomposição única. Assim podemos resolver um sistema $Ax=b$ da forma 
+$$R^Ty=b$$
+$$Rx=y$$
+
+* **Gram-Shmidt**
+O algoritmo de Gram-Shmidt Clássico realiza a decomposição $A=QR$, em que $A\in \mathbb{R}^{m\times n}$, $Q\in\mathbb{R}^{m\times n}$ e $R\in\mathbb{R}^{n\times n}$ triangular superior. Ele consiste em ortonormalizar o conjunto de vetores $\textbf{v}$ = {${\textbf{v}_1, ..., \textbf{v}_k}$} que forma a matriz $A$ através do seguinte processo:
+
+$$\textbf{u}_k = \textbf{v}_k - \sum_{j=1}^{k-1} {{\langle \textbf{v}_k ,\textbf{u}_j \rangle \over \langle \textbf{u}_j ,\textbf{u}_j \rangle }\textbf{u}_j}$$
+
+$$\textbf{q}_k = \frac{\textbf{u}_k}{||\textbf{u}_k||}$$
+\newpage
+* **Rotação de Givens**
+A Rotação de Givens decompõe $A=QR$ zerando um elemento a cada rotação de forma a obter $Q\in\mathbb{R}^{m\times m}$ ortogonal e $R\in\mathbb{R}^{m\times n}$ triangular superior. Para zerar o elemento $A_{ij}$ basta fazer $GA$ em que os elementos não nulos de $G$ são dados por: 
+$$g_{kk} = 1 \quad\text{para}\quad k \neq {i,j}$$
+$$g_{ii} = g_{jj} = \cos{\theta}$$
+$$g_{ij} = -\sin{\theta}$$ 
+$$g_{ji} = \sin{\theta}$$
+Em que 
+
+$$\sin{\theta} = \frac{a_{ij}}{\sqrt{a_{ij}^2 + a_{ii}^2}}$$
+
+$$\cos{\theta} = \frac{a_{ii}}{\sqrt{a_{ij}^2 + a_{ii}^2}}$$
+As matrizes $R$ e $Q$ serão dadas por:
+$$G_n^T G_{n-1}^T ...G_1^T A = R$$
+
+$$G_1G_2...G_n = Q$$
+\newpage
+
+# Resuldados
+\begin{itemize}
+
+\item \textbf{Cholesky} 
+
+\begin{itemize}
+
+\item[$\ast$] $n=3$
+
+- Matriz R:
+
+$R =
+\begin{bmatrix}
+1 & 0.5 & 0.333\\
+0 & 0.288 & 0.288\\
+0 & 0 & 0.074\\
+\end{bmatrix}$
+
+- Com a fatoração de Cholesky, a inversa da Matriz de Hilbert é:
+
+$H =
+\begin{bmatrix}
+9 & -36 & 30\\
+-36 & 192 & -180\\
+30 & -180 & 180\\
+\end{bmatrix}$
+
+- Resíduo: 1.421e^{14}
+
+\item[$\ast$] $n=6$
+
+- Resíduo: 3.768e^{-10}
+
+\item[$\ast$] $n=13$
+
+-Resíduo: Por questões de aproximação numérica o algorítmo não reconhece a matriz como positiva-definida.
+
+\end{itemize}
+
+\item \textbf{Gram-Shmidt}
+
+\begin{itemize}
+
+\item[$\ast$] $n=3$
+
+- Matriz Q:
+
+$Q =
+\begin{bmatrix}
+0.857 & -0.501 & 0.117\\
+0.428 & 0.568 & -0.702\\
+0.285 & 0.652 & 0.702\\
+\end{bmatrix}$
+
+- Matriz R: 
+
+$R =
+\begin{bmatrix}
+1.166 & 0.642 & 0.45\\
+-0 & 0.101 & 0.105\\
+0 & 0 & 0.003\\
+\end{bmatrix}$
+
+- Com a fatoração de QR com Gram-Shmidt, a inversa da Matriz de Hilbert é:
+
+$H =
+\begin{bmatrix}
+9 & -36 & 30\\
+-36 & 192 & -180\\
+30 & -180 & 180\\
+\end{bmatrix}$
+
+- Resíduo: 3.033e^{-12}
+
+\item[$\ast$] $n=6$
+
+- Resíduo: 0.012
+
+\item[$\ast$] $n=13$
+
+- Resíduo: 82.981
+
+\end{itemize}
+
+\item \textbf{Rotações de Givens}
+
+\begin{itemize}
+
+\item[$\ast$] $n=3$
+
+- Matriz Q:
+
+$Q =
+\begin{bmatrix}
+0.857 & -0.501 & 0.117\\
+0.428 & 0.568 & -0.702\\
+0.285 & 0.652 & -0.702\\
+\end{bmatrix}$
+
+- Matriz R:
+
+$R =
+\begin{bmatrix}
+1.166 & 0.642 & 0.45\\
+0 & 0.101 & 0.105\\
+0 & 0 & 0.003\\
+\end{bmatrix}$
+
+- Com a fatoração de QR com Rotações, a inversa da Matriz de Hilbert é:
+
+$H =
+\begin{bmatrix}
+9 & -36 & 30\\
+-36 & 192 & -180\\
+30 & -180 & 180\\
+\end{bmatrix}$
+
+- Resíduo: 7.105e^{-15}
+
+\item[$\ast$] $n=6$
+
+- Resíduo: 3.767e^{-10}
+
+\item[$\ast$] $n=13$
+
+- Resíduo: 182.331
+
+\end{itemize}
+
+\end{itemize}
+
+\begin{itemize}
+
+\item \textbf{Matriz de Hilbert de ordem 3:} 
+
+\begin{itemize}
+
+\item[$\ast$] Constante de Condicionamento: $K = 269.305$
+\item[$\ast$] Estimativa da constante de condicionamento: $\hat{K}$ = 2.524
+
+\end{itemize}
+
+\item \textbf{Matriz de Hilbert de ordem 6:} 
+
+\begin{itemize}
+
+\item[$\ast$] Constante de Condicionamento: $K = 6004518.228$
+\item[$\ast$] Estimativa da constante de condicionamento: $\hat{K} = 3.974$
+
+\end{itemize}
+
+\item \textbf{Matriz de Hilbert de ordem 13:}
+
+\begin{itemize}
+
+\item[$\ast$] Constante de Condicionamento: $K = 1.504e^{+17}$
+\item[$\ast$] Estimativa da constante de condicionamento: $\hat{K} = 6.209$
+
+\end{itemize}
+
+\end{itemize}
+
+\newpage
+
+# Referências
+
+
+
+* *D. S. Watkins, Fundamentals of Matrix Computations, New Jersey: John Wiley & Sons, 3. Ed, 2010*
+
+* *Richard L. Burden e J. Douglas Faires, Análise Numérica, Cengage Learning, Tradução da 8. Ed. Americana, 2008*
+
+
+
+<!--
+\bibliography{bibliography}
+\bibliographystyle{plain}
+-->
+
