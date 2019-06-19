@@ -12,18 +12,32 @@ print('Códigos dos Algortimos:')
 print('    (1) Cholesky \n    (2) QR com Gram-Schmidt \n    (3) QR com rotação')
 alg = int(input('Qual o algoritmo desejado? '))
 print('\n')
-#Cálculo do número de condicionamento analítico pela norma2(k2)
-def cond(A, invA):
-    return Matriz(A).norma2()*Matriz(invA).norma2()
 
-#Estimative inferior para o número de condicionamento pela norma2(k2)
+w = []
+for i in range(n):
+    if (i%2 == 0):
+        w.append(0)
+    else:
+        w.append(1)
+w = np.array(w)
+
+#Cálculo do número de condicionamento analítico pela norma1(k1)
+def cond(A, invA):
+    print(Matriz(A).norma1())
+    print(Matriz(invA).norma1())
+    return Matriz(A).norma1()*Matriz(invA).norma1()
+
+#Estimative inferior para o número de condicionamento pela norma1(k1)
 def condest(A):
     n = np.shape(A)[0]
     a = np.zeros((n,n))
     for i in range(n):
         for j in range(n):
-            a[i,j] = Vetor(A[:,i]).norma2()/Vetor(A[:,j]).norma2()
+            a[i,j] = Vetor(A[:,i]).norma1()/Vetor(A[:,j]).norma1()
     return np.max(a)
+
+def condest2(A, invA, w):
+    return Matriz(A).norma1()*Vetor(np.dot(invA,w)).norma1()/Vetor(w).norma1()
 
 #Matriz de Hilbert
 H = np.fromfunction(lambda i, j: 1/(i+j+1), (n,n), dtype=int)
@@ -54,10 +68,13 @@ if alg == 1:
         X = np.vstack((X, x))
     X = np.delete(X, 0, 0)
     In = Matriz(np.dot(H, X) - I)
-    r = In.norma2()
+    r = In.norma1()
+    r1 = Matriz(X-invH).norma1()
     
-    a = np.around(cond(H, X),decimals=3)
-    b = np.around(condest(H), decimals=3)
+    k0 = np.around(cond(H, invH),decimals=3)
+    k1 = np.around(cond(H, X), decimals=3)
+    k2 = np.around(condest(H), decimals=3)
+    k3 = np.around(condest2(H,X,w), decimals=3)
     
     if n <= 3:
         print('A fatoração de Cholesky é a seguinte:')
@@ -70,9 +87,13 @@ if alg == 1:
         print(X)
         print('H*X - I:')
         print(In.matriz)
+    
+    print('Distância em relação à inversa exata: r1 = ', r1)    
     print('Raio da inversa: r = {}'.format(r))
-    print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
-    print('Tambem temos a estimativa da constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, b))
+    print('k0 = ',k0)
+    print('k1 = ',k1)
+    print('k2 = ',k2)
+    print('k3 = ',k3)    
     
 elif alg == 2:
     q1, r1 = A.GS() #QR com Gram-Schmidt
@@ -85,10 +106,13 @@ elif alg == 2:
         X = np.vstack((X,x))
     X = np.delete(X, 0, 0)
     In = Matriz(np.dot(H, X) - I)
-    r = In.norma2()
+    r = In.norma1()
+    r1 = Matriz(X-invH).norma1()
     
-    a = np.around(cond(H, X),decimals=3)
-    b = np.around(condest(H), decimals=3)
+    k0 = np.around(cond(H, invH),decimals=3)
+    k1 = np.around(cond(H, X), decimals=3)
+    k2 = np.around(condest(H), decimals=3)
+    k3 = np.around(condest2(H,X,w), decimals=3)
     
     if n <= 3:
         print('A fatoração de QR com Gram-Schmidt é a seguinte:')
@@ -102,8 +126,11 @@ elif alg == 2:
         print('H*X - I:')
         print(In.matriz)
     print('Raio da inversa: r = {}'.format(r))
-    print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
-    print('Tambem temos a estimativa da constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, b))
+    print('Distância em relação à inversa exata: r1 = ', r1)
+    print('k0 = ',k0)
+    print('k1 = ',k1)
+    print('k2 = ',k2)
+    print('k3 = ',k3)   
     
 elif alg == 3:
     q2, r2 = A.rot() #QR rotação
@@ -116,10 +143,13 @@ elif alg == 3:
         X = np.vstack((X,x))
     X = np.delete(X, 0, 0)
     In = Matriz(np.dot(H, X) - I)
-    r = In.norma2()
+    r = In.norma1()
+    r1 = Matriz(X-invH).norma1()
     
-    a = np.around(cond(H, X),decimals=3)
-    b = np.around(condest(H), decimals=3)
+    k0 = np.around(cond(H, invH),decimals=3)
+    k1 = np.around(cond(H, X), decimals=3)
+    k2 = np.around(condest(H), decimals=3)
+    k3 = np.around(condest2(H,X,w), decimals=3)
     
     if n <= 3:
         print('A fatoração de QR com rotações é a seguinte:')
@@ -133,8 +163,11 @@ elif alg == 3:
         print('H*X - I:')
         print(In.matriz)
     print('Raio da inversa: r = {}'.format(r))
-    print('Temos a constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, a))
-    print('Tambem temos a estimativa da constante de condicionamento da matriz de Hibert de ordem {}: K = {}'.format(n, b))
+    print('Distância em relação à inversa exata: r1 = ', r1)
+    print('k0 = ',k0)
+    print('k1 = ',k1)
+    print('k2 = ',k2)
+    print('k3 = ',k3)   
     
 else:
       print('Hmm, não entendi :( .')
